@@ -1,0 +1,78 @@
+﻿@model IEnumerable<WebHotelPagina.Models.ListadoHabitaciones>
+
+@{
+    ViewData["Title"] = "IndexListadoHabitaciones";
+}
+
+<h1>IndexListadoHabitaciones</h1>
+
+<p>
+    <a asp-action="NuevaHabitacion">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cod_habitacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.imagen)
+            </th>
+             
+            <th>
+                @Html.DisplayNameFor(model => model.capacidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cod_habitacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                <img src="@item.imagen" alt="Imagen" width="170" height="170" class="rounded mx-auto d-block">
+            </td>
+             
+            <td>
+                @Html.DisplayFor(modelItem => item.capacidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                    @Html.ActionLink("Editar", "EditHabitaciones", new {   id=item.cod_habitacion }) |
+                 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

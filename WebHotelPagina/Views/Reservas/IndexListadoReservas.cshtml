@@ -1,0 +1,80 @@
+﻿@model IEnumerable<WebHotelPagina.Models.Reservas>
+
+@{
+    ViewData["Title"] = "IndexListadoReservas";
+}
+
+<h1>IndexListadoReservas</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_reserva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.habitacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_reserva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_entrada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_salida)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dias_reserva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.precio_total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_reserva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.usuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.habitacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_reserva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_entrada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_salida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dias_reserva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.precio_total)
+            </td>
+            
+
+        </tr>
+}
+    </tbody>
+</table>

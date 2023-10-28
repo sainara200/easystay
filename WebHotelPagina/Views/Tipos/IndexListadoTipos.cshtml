@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebHotelPagina.Models.TipoHabitacion>
+
+@{
+    ViewData["Title"] = "IndexListadoTipos";
+}
+
+<h1>IndexListadoTipos</h1>
+
+<p>
+    <a asp-action="NuevoTipo">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.capacidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombreHotel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.capacidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombreHotel)
+            </td>
+            <td>
+                    @Html.ActionLink("Editar", "EditTipos", new {   id=item.id   }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

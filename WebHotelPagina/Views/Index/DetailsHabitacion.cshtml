@@ -1,0 +1,217 @@
+﻿@model WebHotelPagina.Models.ListadoHabitaciones 
+@using SlnWeb.Utilities
+
+
+@{
+    ViewData["Title"] = "DetailsHabitacion";
+}
+
+<h1>DetailsHabitacion</h1>
+
+<div>
+    <h4>ListadoHabitaciones</h4>
+    <hr />
+
+    @if (Model.id > 0)
+    {
+        <input asp-for="@Model.id" hidden />
+
+        <dl class="row">
+            <div class="col-12">
+                <div class="card-header bg-dark text-light" style="border-radius: 0px;">
+                    <div class="row container">
+                        <div class="col-12 col-md-6">
+                            <h1 class="text-white">
+                                @Html.DisplayFor(model => model.nombre)
+                            </h1>
+                        </div>
+                        <div class="col-12 col-md-6 text-md-end">
+                            <h1 class="text-warning">
+                                @((Model.precio).ToString("c"))
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <dt class="col-sm-2">
+                Tipo de Habitacion
+            </dt>
+            <dd class="col-sm-10">
+                <span class="badge p-2 border text-dark" style="background-color: lavenderblush; width: 100px; height: 40px;">
+                    @Html.DisplayFor(model => model.tipo)
+                </span>
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.descripcion)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.Raw(Model.descripcion)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.capacidad) @(" persona(s)")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.capacidad)
+            </dd>
+
+            <dt>
+                <img src="@Model.imagen" alt="Imagen" width="350" height="350">
+            </dt>
+        </dl>
+
+        <div class="card-footer bg-dark">
+            <div class="row">
+                <div class="col-12 col-md-6 pb-1">
+                    <a asp-action="IndexHabitaciones" class="btn btn-success btn-square form control btn-lg" style="height:50px;">REGRESAR</a>
+                </div>
+
+                <!-- <a asp-action="AgregarCarro" asp-route-id="@Model.id" class="btn btn-warning">Remover de Carrito</a> -->
+                <!-- <button asp-action="RegistroReserva" type="submit" asp-route-id="@Model.cod_habitacion" class="btn btn-info form-control btn-lg" style="height:50px;">Quiero registrar una reserva</button> -->
+                @if (User.IsInRole(Session.ClienteRol))
+                    {
+                         <button id="openModalButton" class="btn btn-primary" data-habitacion-id="@Model.cod_habitacion">Registrar Reserva</button>
+                     
+                    } 
+                    <div id="reservaModal" style="display: none;">
+                    <!-- Contenido del modal -->
+                    <form asp-action="RegistroReserva" id="payment-form" method="post">
+                        <div class="form-group">
+                            <label for="habitacion" style="color: white;" class="control-label">HABITACION</label>
+                            <input type="text" name="habitacion" class="form-control" value="@Model.cod_habitacion">
+                        </div>
+                        
+
+
+                        <div class="form-group">
+                            <label for="correo" style="color: white;" class="control-label">Correo</label>
+                            <input type="text" name="correo" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha_entrada" style="color: white;" class="control-label">Fecha de Entrada</label>
+                            <input type="date" id="fecha_entrada" name="fecha_entrada" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha_salida" style="color: white;" class="control-label">Fecha de Salida</label>
+                            <input type="date" id="fecha_salida" name="fecha_salida" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dias_reserva" style="color: white;" class="control-label">Días de Reserva</label>
+                            <input type="number" id="dias_reserva" name="dias_reserva" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="precio_total" style="color: white;" class="control-label">Precio Total</label>
+                            <input type="number" id="precio_total" name="precio_total" class="form-control" />
+                        </div>
+
+
+                        <div class="card-footer">
+                            <div class="checkoukt container">
+                                <div id="dropin-container"></div>
+                                <input type="hidden" id="nonce" name="payment_method_nonce" />
+                            </div>
+                        </div>
+
+                        <!-- Otros campos del formulario (fecha_entrada, fecha_salida, correo, etc.) -->
+                        <button type="submit" class="btn btn-primary">Guardar Reserva</button>
+                    </form>
+                </div>
+
+            
+            </div>
+        </div>
+    }
+</div>
+<div>
+    
+
+    <script src="https://js.braintreegateway.com/web/dropin/1.37.0/js/dropin.min.js"></script>
+
+
+    <script>
+        const form = document.getElementById('payment-form');
+        const client_token = "@ViewBag.ClientToken";
+
+        braintree.dropin.create({
+            authorization: client_token,
+            container: '#dropin-container'
+        }, (error, dropinInstance) => {
+            if (error) console.error(error);
+
+            form.addEventListener('submit', event => {
+                event.preventDefault();
+
+                dropinInstance.requestPaymentMethod((error, payload) => {
+                    if (error) console.error(error);
+
+                    // Step four: when the user is ready to complete their
+                    //   transaction, use the dropinInstance to get a payment
+                    //   method nonce for the user's selected payment method, then add
+                    //   it a the hidden field before submitting the complete form to
+                    //   a server-side integration
+                    document.getElementById('nonce').value = payload.nonce;
+                    form.submit();
+                });
+            });
+        });
+
+    </script>
+
+
+
+
+
+
+    <script>
+
+         
+
+
+        document.getElementById("openModalButton").addEventListener("click", function () {
+         //   var habitacionId = this.getAttribute("data-habitacion-id");
+           // document.getElementById("id_habitacion").value = habitacionId;
+            document.getElementById("reservaModal").style.display = "block";
+        });
+
+         
+            document.addEventListener("DOMContentLoaded", function () {
+                const fechaEntrada = document.getElementById("fecha_entrada");
+                const fechaSalida = document.getElementById("fecha_salida");
+                const diasReserva = document.getElementById("dias_reserva");
+                const precioTotal = document.getElementById("precio_total");
+
+                fechaEntrada.addEventListener("input", actualizarDiasYPrecio);
+                fechaSalida.addEventListener("input", actualizarDiasYPrecio);
+
+                function actualizarDiasYPrecio() {
+                    const entrada = new Date(fechaEntrada.value);
+                    const salida = new Date(fechaSalida.value);
+
+                    if (!isNaN(entrada) && !isNaN(salida) && salida >= entrada) {
+                        const diffTime = Math.abs(salida - entrada);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                        diasReserva.value = diffDays;
+
+                    precioTotal.value = diffDays * @Model.precio;
+                    } else {
+                        diasReserva.value = "";
+                        precioTotal.value = "";
+                    }
+                }
+            }); 
+
+
+
+    </script>
+
+
+</div>
+
+
