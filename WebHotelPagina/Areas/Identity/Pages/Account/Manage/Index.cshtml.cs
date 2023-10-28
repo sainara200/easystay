@@ -58,6 +58,7 @@ namespace WebHotelPagina.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public string Id { get; set; } // Agrega la propiedad Id
         }
 
         private async Task LoadAsync(IdentityUser user)
@@ -69,7 +70,8 @@ namespace WebHotelPagina.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Id = user.Id // Asigna el Id del usuario a la propiedad Id en InputModel
             };
         }
 
