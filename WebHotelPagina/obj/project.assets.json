@@ -46,6 +46,28 @@
           }
         }
       },
+      "bootstrap/3.3.1": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "1.9.0"
+        }
+      },
+      "bootstrap-rating.mvc/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "bootstrap": "3.3.1"
+        },
+        "compile": {
+          "lib/net452/BootstrapRating.dll": {
+            "related": ".XML"
+          }
+        },
+        "runtime": {
+          "lib/net452/BootstrapRating.dll": {
+            "related": ".XML"
+          }
+        }
+      },
       "Braintree/5.11.0": {
         "type": "package",
         "dependencies": {
@@ -652,6 +674,9 @@
             "locale": "zh-Hant"
           }
         }
+      },
+      "jQuery/1.9.0": {
+        "type": "package"
       },
       "MessagePack/2.1.152": {
         "type": "package",
@@ -4255,6 +4280,46 @@
         "lib/netstandard2.0/Azure.Identity.xml"
       ]
     },
+    "bootstrap/3.3.1": {
+      "sha512": "+OganGYT1i1uIwZPa+AQUT3F3XxWUgFpFoYj+ujM4U5ZJYywW+nEl3v+A5BElLZNbk0FkFFZV4JixIfL6Q4xfg==",
+      "type": "package",
+      "path": "bootstrap/3.3.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bootstrap.3.3.1.nupkg.sha512",
+        "bootstrap.nuspec",
+        "content/Content/bootstrap-theme.css",
+        "content/Content/bootstrap-theme.css.map",
+        "content/Content/bootstrap-theme.min.css",
+        "content/Content/bootstrap.css",
+        "content/Content/bootstrap.css.map",
+        "content/Content/bootstrap.min.css",
+        "content/Scripts/bootstrap.js",
+        "content/Scripts/bootstrap.min.js",
+        "content/Scripts/npm.js",
+        "content/fonts/glyphicons-halflings-regular.eot",
+        "content/fonts/glyphicons-halflings-regular.svg",
+        "content/fonts/glyphicons-halflings-regular.ttf",
+        "content/fonts/glyphicons-halflings-regular.woff"
+      ]
+    },
+    "bootstrap-rating.mvc/1.0.0": {
+      "sha512": "5EDItAulshrm8x1t3ls8FHKMFF/3wB2lvZc9xYGB5IutvfojhrIGp1cWAC9geKhzI2ECzqI1//zCFiPxkPUYRw==",
+      "type": "package",
+      "path": "bootstrap-rating.mvc/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bootstrap-rating.mvc.1.0.0.nupkg.sha512",
+        "bootstrap-rating.mvc.nuspec",
+        "content/Content/bootstrap-rating.css",
+        "content/Scripts/bootstrap-rating/bootstrap-rating.js",
+        "content/Scripts/bootstrap-rating/bootstrap-rating.min.js",
+        "lib/net452/BootstrapRating.XML",
+        "lib/net452/BootstrapRating.dll"
+      ]
+    },
     "Braintree/5.11.0": {
       "sha512": "XA7TFbtCHm7KekVHaQWW6/nSPhRrJ5emtxjhojJ0RAD/6PKvWLqrTdc6Z5HvpMv2uzhb2sdSEndK4oICz64Ogg==",
       "type": "package",
@@ -5012,6 +5077,26 @@
         "lib/netstandard1.0/zh-Hant/Humanizer.resources.dll",
         "lib/netstandard2.0/zh-Hant/Humanizer.resources.dll",
         "logo.png"
+      ]
+    },
+    "jQuery/1.9.0": {
+      "sha512": "bS6OGSd/QL39vKKhATpeehgZDCzV6foRJ52EocEGAB29VetwXkQHN6KQIBlBbW9VJzuHr+rQxHYZ13MnPGQ/vw==",
+      "type": "package",
+      "path": "jquery/1.9.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery-1.9.0-vsdoc.js",
+        "Content/Scripts/jquery-1.9.0.js",
+        "Content/Scripts/jquery-1.9.0.min.js",
+        "Content/Scripts/jquery-1.9.0.min.map",
+        "Tools/common.ps1",
+        "Tools/install.ps1",
+        "Tools/jquery-1.9.0.intellisense.js",
+        "Tools/uninstall.ps1",
+        "jquery.1.9.0.nupkg.sha512",
+        "jquery.nuspec"
       ]
     },
     "MessagePack/2.1.152": {
@@ -12074,7 +12159,8 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.16",
       "Newtonsoft.Json >= 13.0.3",
       "SendGrid >= 9.24.4",
-      "System.Data.SqlClient >= 4.8.5"
+      "System.Data.SqlClient >= 4.8.5",
+      "bootstrap-rating.mvc >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -12157,6 +12243,10 @@
           "System.Data.SqlClient": {
             "target": "Package",
             "version": "[4.8.5, )"
+          },
+          "bootstrap-rating.mvc": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           }
         },
         "imports": [
@@ -12181,5 +12271,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"bootstrap-rating.mvc 1.0.0\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" en lugar de la plataforma de destino del proyecto \"net6.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "bootstrap-rating.mvc",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

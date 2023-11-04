@@ -3,9 +3,51 @@
 @{
     ViewData["Title"] = "IndexHabitaciones";
 }
+<h2>Tipos de Habitacion</h2>
+<div>
+    <!-- Botón para mostrar todos los productos -->
+    <a id="btnMostrarTodos" class="btn btn-primary btn-floating">Mostrar todos</a>
 
-<h1>IndexHabitaciones</h1>
+    <!-- Botones flotantes de categorías -->
+    @foreach (var tipo in ViewBag.TIPO)
+    {
+        <a href="@Url.Action("IndexHabitaciones", new { id = tipo.Value, hotel = ViewBag.SelectedHotel })" class="btn btn-primary btn-floating @(ViewBag.SelectedCategory != null && Convert.ToInt32(ViewBag.SelectedCategory) == Convert.ToInt32(tipo.Value) ? "active" : "")">@tipo.Text</a>
+    }
+</div>
 
+<h2>Hoteles</h2>
+<div>
+    <a id="btnMostrarHoteles" class="btn btn-primary btn-floating">Mostrar todos</a>
+    @foreach (var hotel in ViewBag.HOTEL)
+    {
+        <a href="@Url.Action("IndexHabitaciones", new { hotel = hotel.Value, id = ViewBag.SelectedCategory })" class="btn btn-primary btn-floating @(ViewBag.SelectedHotel != null && Convert.ToInt32(ViewBag.SelectedHotel) == Convert.ToInt32(hotel.Value) ? "active" : "")">@hotel.Text</a>
+    }
+</div>
+
+<script>
+    // Obtener el elemento del botón "Mostrar todos"
+    var btnMostrarTodos = document.getElementById("btnMostrarTodos");
+
+    // Obtener el elemento del botón "Mostrar todos" para hoteles
+    var btnMostrarHoteles = document.getElementById("btnMostrarHoteles");
+
+    // Obtener el valor actual de "Tipo de Habitación"
+    var tipoSeleccionado = @(ViewBag.SelectedCategory != null ? ViewBag.SelectedCategory : "null");
+    var hotelSeleccionado = @(ViewBag.SelectedHotel != null ? ViewBag.SelectedHotel : "null");
+
+    // Asignar el evento click a ambos botones "Mostrar todos"
+    if (btnMostrarTodos && btnMostrarHoteles) {
+        btnMostrarTodos.addEventListener("click", function () {
+            window.location.href = "/Index/IndexHabitaciones?id=null&hotel=" + hotelSeleccionado;
+        });
+
+        btnMostrarHoteles.addEventListener("click", function () {
+            window.location.href = "/Index/IndexHabitaciones?id=" + tipoSeleccionado + "&hotel=null";
+        });
+    }
+</script>
+
+ 
 
 <style>
     .btn-floating.active {
@@ -27,7 +69,7 @@
         height: auto;
         margin: 1%;
         text-align: center;
-    }
+    } 
 </style>
 
 

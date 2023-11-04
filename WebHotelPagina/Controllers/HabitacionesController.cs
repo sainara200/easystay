@@ -44,7 +44,8 @@ namespace WebHotelPagina.Controllers
                     multipartForm.Add(new StringContent(obj.precio.ToString()), name: "precio");
                     multipartForm.Add(new StringContent(obj.id_tipo.ToString()), name: "id_tipo");
                     multipartForm.Add(new StringContent(obj.nombre), name: "nombre");
-                    multipartForm.Add(new StringContent(obj.descripcion.ToString()), name: "descripcion"); 
+                    multipartForm.Add(new StringContent(obj.descripcion.ToString()), name: "descripcion");
+                    multipartForm.Add(new StringContent(obj.id_hotel.ToString()), name: "hotel_id");
 
                     var filestream = new StreamContent(obj.archivo.OpenReadStream());
                     filestream.Headers.ContentType = new MediaTypeHeaderValue(obj.archivo.ContentType);
@@ -77,7 +78,20 @@ namespace WebHotelPagina.Controllers
                 // deserializar la cadena (Json) a Lista Genérica de Medicos 
                 tipo = JsonConvert.DeserializeObject<List<TbTipoHabitacion>>(respuestaAPI);
             }
-            ViewBag.TIPO = new SelectList(tipo, "id", "descripcion"); 
+            ViewBag.TIPO = new SelectList(tipo, "id", "descripcion");
+
+            var hotel = new List<TbHoteles>();
+            using (HttpClient cliente = new HttpClient())
+            {
+                // realizar la solicitud GET 
+                var respuesta =
+                  await cliente.GetAsync("http://testingtestteo-001-site1.ftempurl.com/api/Hoteles/ListadoGeneral");
+                // convertir el contenido a una cadena 
+                string respuestaAPI = await respuesta.Content.ReadAsStringAsync();
+                // deserializar la cadena (Json) a Lista Genérica de Medicos 
+                hotel = JsonConvert.DeserializeObject<List<TbHoteles>>(respuestaAPI);
+            }
+            ViewBag.HOTEL = new SelectList(hotel, "id", "nombre");
 
             return View(new TbHabitaciones());
         }
@@ -115,9 +129,27 @@ namespace WebHotelPagina.Controllers
                 tipo = JsonConvert.DeserializeObject<List<TbTipoHabitacion>>(respuestaAPI);
             }
             ViewBag.TIPO = new SelectList(tipo, "id", "descripcion");
+
+
+            var hotel = new List<TbHoteles>();
+            using (HttpClient cliente = new HttpClient())
+            {
+                // realizar la solicitud GET 
+                var respuesta =
+                  await cliente.GetAsync("http://testingtestteo-001-site1.ftempurl.com/api/Hoteles/ListadoGeneral");
+                // convertir el contenido a una cadena 
+                string respuestaAPI = await respuesta.Content.ReadAsStringAsync();
+                // deserializar la cadena (Json) a Lista Genérica de Medicos 
+                hotel = JsonConvert.DeserializeObject<List<TbHoteles>>(respuestaAPI);
+            }
+            ViewBag.HOTEL = new SelectList(hotel, "id", "nombre");
             // 
             return View("NuevaHabitacion", obj);
         }
+
+
+
+
 
 
 
@@ -134,6 +166,7 @@ namespace WebHotelPagina.Controllers
                     multipartForm.Add(new StringContent(obj.id_tipo.ToString()), name: "id_tipo");
                     multipartForm.Add(new StringContent(obj.nombre), name: "nombre");
                     multipartForm.Add(new StringContent(obj.descripcion.ToString()), name: "descripcion");
+                    multipartForm.Add(new StringContent(obj.id_hotel.ToString()), name: "hotel_id");
 
                     if (obj.archivo != null)
                     {

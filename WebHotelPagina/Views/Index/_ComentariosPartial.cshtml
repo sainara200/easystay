@@ -1,0 +1,19 @@
+﻿@model WebHotelPagina.Models.ListadoHabitaciones
+
+ 
+    <h3>Calificaciones de la habitación:</h3>
+    <ul class="list-group">
+        @foreach (var calificacion in Model.calificacion)
+        {
+            if (calificacion.califi > 0)
+            {
+                <li class="list-group-item">
+                    @for (var i = 0; i < calificacion.califi; i++)
+                    {
+                        <span class="star">★</span>
+                    }
+                    <span class="badge badge-primary">@calificacion.cantidad</span>
+                </li>
+            }
+        }
+    </ul> 

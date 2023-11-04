@@ -6,6 +6,6 @@
         public int id_hotel { get; set; }
         public string descripcion { get; set; }
         public int capacidad { get; set; }
-        public string nombreHotel { get; set; } 
+      //  public string nombreHotel { get; set; } 
     }
 }

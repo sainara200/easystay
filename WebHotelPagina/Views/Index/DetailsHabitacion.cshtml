@@ -1,23 +1,62 @@
 ﻿@model WebHotelPagina.Models.ListadoHabitaciones 
-@using SlnWeb.Utilities
-
+@using SlnWeb.Utilities 
+@*@using BootstrapRating
+*@ 
 
 @{
     ViewData["Title"] = "DetailsHabitacion";
 }
+<head>
+    <style>
+        #form {
+            width: 250px;
+            margin: 0 auto;
+            height: 50px;
+        }
 
-<h1>DetailsHabitacion</h1>
+            #form p {
+                text-align: center;
+            }
+
+            #form label {
+                font-size: 20px;
+            }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        label {
+            color: grey;
+        }
+
+        .clasificacion {
+            direction: rtl;
+            unicode-bidi: bidi-override;
+        }
+
+        label:hover,
+        label:hover ~ label {
+            color: orange;
+        }
+
+        input[type="radio"]:checked ~ label {
+            color: orange;
+        }
+
+    </style>
+</head>
+ 
 
 <div>
-    <h4>ListadoHabitaciones</h4>
-    <hr />
+     <hr />
 
     @if (Model.id > 0)
     {
         <input asp-for="@Model.id" hidden />
 
-        <dl class="row">
-            <div class="col-12">
+        <div class="row">
+            <div class="col-md-8" >
                 <div class="card-header bg-dark text-light" style="border-radius: 0px;">
                     <div class="row container">
                         <div class="col-12 col-md-6">
@@ -32,106 +71,303 @@
                         </div>
                     </div>
                 </div>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Tipo de Habitación
+                    </dt>
+                    <dd class="col-sm-8">
+                        <span class="badge p-2 border text-dark" style="background-color: lavenderblush; width: 100px; height: 40px;">
+                            @Html.DisplayFor(model => model.tipo)
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.descripcion)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.Raw(Model.descripcion)
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.capacidad) @(" persona(s)")
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.capacidad)
+                    </dd>
+                    <dd class="col-sm-12" style="max-width: 100%; overflow: hidden;">
+                        <img src="@Model.imagen" alt="Imagen" style="max-width: 100%; max-height: 100%;" />
+
+                    </dd>
+                     
+                </dl>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6"> 
+                            <a asp-action="IndexHabitaciones" class="btn btn-primary btn-block"  >REGRESAR</a>
+                        </div>
+                        <div class="col-sm-6"> 
+
+                            @if (User.IsInRole(Session.ClienteRol))
+                            {
+                             <button id="openModalButton" type="button" class="btn btn-secondary btn-block" data-habitacion-id="@Model.cod_habitacion">REGISTRAR UNA RESERVA</button>
+
+                                
+                            }
+                        </div>
+                    </div>
+
+                     
+                        <div class="card-footer bg-dark" id="reservaModal" style="display: none;">
+                            <!-- Contenido del modal -->
+                            <form asp-action="RegistroReserva" id="payment-form" method="post">
+                                <div class="form-group"> 
+                                    <input type="hidden" name="habitacion" class="form-control" value="@Model.cod_habitacion">
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="correo" style="color: white;" class="control-label">Correo</label>
+                                    <input type="text" name="correo" class="form-control" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fecha_entrada" style="color: white;" class="control-label">Fecha de Entrada</label>
+                                    <input type="date" id="fecha_entrada" name="fecha_entrada" class="form-control" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fecha_salida" style="color: white;" class="control-label">Fecha de Salida</label>
+                                    <input type="date" id="fecha_salida" name="fecha_salida" class="form-control" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="dias_reserva" style="color: white;" class="control-label">Días de Reserva</label>
+                                    <input type="number" id="dias_reserva" name="dias_reserva" class="form-control" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="precio_total" style="color: white;" class="control-label">Precio Total</label>
+                                    <input type="number" id="precio_total" name="precio_total" class="form-control" />
+                                </div>
+
+
+                                <div class="card-footer">
+                                    <div class="checkoukt container">
+                                        <div id="dropin-container"></div>
+                                        <input type="hidden" id="nonce" name="payment_method_nonce" />
+                                    </div>
+                                </div>
+
+                                <!-- Otros campos del formulario (fecha_entrada, fecha_salida, correo, etc.) -->
+                                <button type="submit" class="btn btn-primary">Guardar Reserva</button>
+                            <button type="button" class="btn btn-secondary" id="toggleModal"> Cerrar Modal</button>
+
+                            </form>
+                        </div>
+                    
+
+                    
+
+
+
+
+
+
+
+                </div>
+                
+
             </div>
 
-            <dt class="col-sm-2">
-                Tipo de Habitacion
-            </dt>
-            <dd class="col-sm-10">
-                <span class="badge p-2 border text-dark" style="background-color: lavenderblush; width: 100px; height: 40px;">
-                    @Html.DisplayFor(model => model.tipo)
-                </span>
-            </dd>
-
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.descripcion)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.Raw(Model.descripcion)
-            </dd>
-
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.capacidad) @(" persona(s)")
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.capacidad)
-            </dd>
-
-            <dt>
-                <img src="@Model.imagen" alt="Imagen" width="350" height="350">
-            </dt>
-        </dl>
-
-        <div class="card-footer bg-dark">
-            <div class="row">
-                <div class="col-12 col-md-6 pb-1">
-                    <a asp-action="IndexHabitaciones" class="btn btn-success btn-square form control btn-lg" style="height:50px;">REGRESAR</a>
-                </div>
-
-                <!-- <a asp-action="AgregarCarro" asp-route-id="@Model.id" class="btn btn-warning">Remover de Carrito</a> -->
-                <!-- <button asp-action="RegistroReserva" type="submit" asp-route-id="@Model.cod_habitacion" class="btn btn-info form-control btn-lg" style="height:50px;">Quiero registrar una reserva</button> -->
-                @if (User.IsInRole(Session.ClienteRol))
+            <div class="col-md-4">
+                <h3>Calificaciones de la habitación:</h3>
+                <ul class="list-group">
+                    @foreach (var calificacion in Model.calificacion)
                     {
-                         <button id="openModalButton" class="btn btn-primary" data-habitacion-id="@Model.cod_habitacion">Registrar Reserva</button>
-                     
-                    } 
-                    <div id="reservaModal" style="display: none;">
-                    <!-- Contenido del modal -->
-                    <form asp-action="RegistroReserva" id="payment-form" method="post">
+                        if (calificacion.califi > 0)
+                        {
+                            <li class="list-group-item">
+                                @for (var i = 0; i < calificacion.califi; i++)
+                                {
+                                    <span class="star">★</span>
+                                }
+                                <span class="badge badge-primary">@calificacion.cantidad</span>
+                            </li>
+                        }
+                    }
+                </ul>
+
+
+                <div  >
+                    <div id="comentarios-section">
+                        <h3>Comentarios de la habitación:</h3>
+                        <ul id="comentarios-list" class="list-group">
+                            @foreach (var comentario in Model.comentarios)
+                            {
+                                <li class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1"><strong>@comentario.email</strong></h5>
+                                        <small>@comentario.fecha.ToString("yyyy-MM-dd")</small>
+                                    </div>
+                                    <div class="mb-1">
+                                        <!-- Genera estrellas según la calificación del comentario -->
+                                        @for (int i = 1; i <= comentario.calificacion; i++)
+                                        {
+                                            <span class="star">★</span>
+                                        }
+                                    </div>
+                                    <p class="mb-1">@comentario.comentario</p>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div  >
+                    <h3>Agregar un Comentario</h3>
+                    <form id="comentario-form" method="post">
+                        <div class="form-group"> 
+                            <input type="hidden" name="habitacion" class="form-control" value="@Model.cod_habitacion">
+                        </div>
+
+                        @* <div>
+                    <b-form-rating v-model="value"></b-form-rating>
+                    <p class="mt-2">Value: {{ value }}</p>
+                    </div>*@
                         <div class="form-group">
-                            <label for="habitacion" style="color: white;" class="control-label">HABITACION</label>
-                            <input type="text" name="habitacion" class="form-control" value="@Model.cod_habitacion">
-                        </div>
-                        
-
-
-                        <div class="form-group">
-                            <label for="correo" style="color: white;" class="control-label">Correo</label>
-                            <input type="text" name="correo" class="form-control" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="fecha_entrada" style="color: white;" class="control-label">Fecha de Entrada</label>
-                            <input type="date" id="fecha_entrada" name="fecha_entrada" class="form-control" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="fecha_salida" style="color: white;" class="control-label">Fecha de Salida</label>
-                            <input type="date" id="fecha_salida" name="fecha_salida" class="form-control" />
+                            <h6>CALIFICANOS!!</h6>
+                            <p class="clasificacion">
+                                <input id="radio1" type="radio" name="estrellas" value="5">
+                                <label for="radio1">★</label>
+                                <input id="radio2" type="radio" name="estrellas" value="4">
+                                <label for="radio2">★</label>
+                                <input id="radio3" type="radio" name="estrellas" value="3">
+                                <label for="radio3">★</label>
+                                <input id="radio4" type="radio" name="estrellas" value="2">
+                                <label for="radio4">★</label>
+                                <input id="radio5" type="radio" name="estrellas" value="1">
+                                <label for="radio5">★</label>
+                            </p>
                         </div>
 
                         <div class="form-group">
-                            <label for="dias_reserva" style="color: white;" class="control-label">Días de Reserva</label>
-                            <input type="number" id="dias_reserva" name="dias_reserva" class="form-control" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="precio_total" style="color: white;" class="control-label">Precio Total</label>
-                            <input type="number" id="precio_total" name="precio_total" class="form-control" />
+                            <label for="comentario" style="color: black;" class="control-label">Comentario</label>
+                            <input type="text" id="comentario" name="comentario" class="form-control" />
                         </div>
 
 
-                        <div class="card-footer">
-                            <div class="checkoukt container">
-                                <div id="dropin-container"></div>
-                                <input type="hidden" id="nonce" name="payment_method_nonce" />
-                            </div>
-                        </div>
+
+                        <input type="hidden" id="calificacion" name="calificacion" value=0>
 
                         <!-- Otros campos del formulario (fecha_entrada, fecha_salida, correo, etc.) -->
-                        <button type="submit" class="btn btn-primary">Guardar Reserva</button>
+                        <button type="submit" class="btn btn-primary">Agregar Comentario</button>
                     </form>
                 </div>
 
-            
+
+
+
+
+
+
+
+
+
             </div>
         </div>
+
+
+
+
+         
+
+          
     }
 </div>
 <div>
-    
-
     <script src="https://js.braintreegateway.com/web/dropin/1.37.0/js/dropin.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+   
+
+
+
+    <script>
+        $(document).ready(function () {
+            // Escucha el evento de cambio en los radio buttons (estrellas)
+            $('input[type="radio"][name="estrellas"]').change(function () {
+                // Obtiene el valor de la calificación seleccionada
+                var calificacionSeleccionada = $(this).val();
+
+                // Actualiza el valor del campo oculto "calificacion"
+                $('#calificacion').val(calificacionSeleccionada);
+            });
+        });
+    </script> 
+
+
+    <script>
+        $(document).ready(function () {
+            // Escucha el evento submit del formulario
+            $("#comentario-form").on("submit", function (e) {
+                e.preventDefault(); // Evita el envío predeterminado del formulario
+
+                var formData = $(this).serialize(); // Obtén los datos del formulario
+
+                $.ajax({
+                    url: '@Url.Action("AgregarComentario", "Index")',
+                    type: 'POST',
+                    data: formData,
+                    success: function (data) {
+                        // Limpia el campo de comentario
+                        $('#comentario').val('');
+
+                        // Reinicia la calificación (desmarca las estrellas)
+                        $('input[name="estrellas"]').prop('checked', false);
+
+                        // Actualiza la lista de comentarios sin recargar la página
+                        var comentariosList = $('#comentarios-list');
+                        comentariosList.empty(); // Limpia la lista actual
+
+                        // Recorre los comentarios y agrega cada uno a la lista
+                        for (var i = 0; i < data.length; i++) {
+                            var comentario = data[i];
+                            var listItem = '<li class="list-group-item">';
+                            listItem += '<div class="d-flex w-100 justify-content-between">';
+                            listItem += '<h5 class="mb-1"><strong>' + comentario.email + '</strong></h5>';
+
+                            // Formatea la fecha en el formato deseado
+                            var fecha = new Date(comentario.fecha);
+                            var fechaFormateada = fecha.getFullYear() + '-' + ('0' + (fecha.getMonth() + 1)).slice(-2) + '-' + ('0' + fecha.getDate()).slice(-2);
+                            listItem += '<small>' + fechaFormateada + '</small>';
+
+                            // Agrega estrellas en lugar de la calificación numérica
+                            var stars = '';
+                            for (var j = 1; j <= comentario.calificacion; j++) {
+                                stars += '★';
+                            }
+                            listItem += '<div>' + stars + '</div>';
+
+                            listItem += '</div>';
+                            listItem += '<p class="mb-1">' + comentario.comentario + '</p>';
+                            listItem += '</li>';
+                            comentariosList.append(listItem);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+     
+
+
+
+
+    
 
 
     <script>
@@ -166,7 +402,21 @@
 
 
 
+    <script>
+        $(document).ready(function () {
+            // Selector del botón para abrir/cerrar el modal
+            var toggleButton = $("#toggleModal");
 
+            // Selector del modal
+            var modal = $("#reservaModal");
+
+            // Escuchar el clic en el botón
+            toggleButton.click(function () {
+                // Alternar la visibilidad del modal
+                modal.toggle();
+            });
+        });
+    </script>
 
     <script>
 

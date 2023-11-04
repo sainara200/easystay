@@ -1,5 +1,6 @@
 ﻿@model WebHotelPagina.Models.TbTipoHabitacion
-
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 @{
     ViewData["Title"] = "NuevoTipo";
 }
@@ -22,17 +23,19 @@
                 <input asp-for="descripcion" class="form-control" />
                 <span asp-validation-for="descripcion" class="text-danger"></span>
             </div>
+            
+
             <div class="form-group">
                 <label asp-for="capacidad" class="control-label"></label>
                 <input asp-for="capacidad" class="form-control" />
                 <span asp-validation-for="capacidad" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="id_hotel" class="control-label"></label>
                 @Html.DropDownList("id_hotel", ViewBag.TIPO as SelectList,
                 "Seleccione...", new { @class = "form-select"} )
                 <span asp-validation-for="id_hotel" class="text-danger"></span>
-            </div> 
+            </div> *@
 
 
             @if (Model.id != 0)
@@ -57,6 +60,8 @@
 <div>
     <a asp-action="IndexListadoTipos">Back to List</a>
 </div>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

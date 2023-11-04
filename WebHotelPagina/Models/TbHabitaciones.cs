@@ -11,6 +11,7 @@
         public string descripcion { get; set; }
          
         public IFormFile  archivo { get; set; }
+        public int id_hotel { get; set; }
 
 
 

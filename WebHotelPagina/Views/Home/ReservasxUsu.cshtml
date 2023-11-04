@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebHotelPagina.Models.Reservas>
+
+@{
+    ViewData["Title"] = "ReservasxUsu";
+}
+
+<style>
+    .reservas-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .reserva {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 10px;
+        width: calc(50% - 20px);
+        text-align: center;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .action-links {
+        margin-top: 10px;
+    }
+</style>
+
+<h1>Mis RESERVAS</h1>
+@if (Model == null || !Model.Any() || Model.All(reserva => reserva.id_reserva < 0))
+{
+    <p>Su usario no tiene reservas disponibles en este momento.</p>
+}
+else
+{
+    <div class="reservas-container">
+        @foreach (var item in Model)
+        {
+            <div class="reserva">
+                <h3>Reserva # @item.id_reserva</h3>
+                <p><strong>Usuario:</strong> @item.usuario</p>
+                <p><strong>Correo:</strong> @item.correo</p>
+                <p><strong>Habitación:</strong> @item.habitacion</p>
+                <p><strong>Fecha de Reserva:</strong> @item.fecha_reserva</p>
+                <p><strong>Fecha de Entrada:</strong> @item.fecha_entrada</p>
+                <p><strong>Fecha de Salida:</strong> @item.fecha_salida</p>
+                <p><strong>Días de Reserva:</strong> @item.dias_reserva</p>
+                <p><strong>Precio Total:</strong> @item.precio_total</p>
+            </div>
+        }
+    </div>
+}

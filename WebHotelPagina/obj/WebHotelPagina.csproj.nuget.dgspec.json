@@ -81,6 +81,10 @@
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.5, )"
+            },
+            "bootstrap-rating.mvc": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             }
           },
           "imports": [

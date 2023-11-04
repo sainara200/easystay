@@ -37,6 +37,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.nombre)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.hotel)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -68,6 +71,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.nombre)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.hotel)
+                </td>
             <td>
                     @Html.ActionLink("Editar", "EditHabitaciones", new {   id=item.cod_habitacion }) |
                  

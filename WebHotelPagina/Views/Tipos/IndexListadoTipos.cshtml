@@ -21,9 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.capacidad)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nombreHotel)
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -39,9 +37,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.capacidad)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nombreHotel)
-            </td>
+            
             <td>
                     @Html.ActionLink("Editar", "EditTipos", new {   id=item.id   }) 
             </td>

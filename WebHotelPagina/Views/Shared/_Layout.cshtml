@@ -91,6 +91,7 @@
                             <a class="collapse-item" asp-area="" asp-controller="Habitaciones" asp-action="IndexListadoHabitaciones">HABITACIONES</a>
                                 <a class="collapse-item" asp-area="" asp-controller="Tipos" asp-action="IndexListadoTipos">TIPOS DE HABITACIONES</a>
                                 <a class="collapse-item" asp-area="" asp-controller="Reservas" asp-action="IndexListadoReservas">RESERVAS</a>
+                                <a class="collapse-item" asp-area="" asp-controller="Hoteles" asp-action="IndexListadoHoteles">HOTELES</a>
                                 <a class="nav-link text-dark" asp-area="identity" asp-page="/Account/Register">Crear Nuevo Usuario Admin</a>
 
                             </div>
@@ -128,17 +129,16 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Index" asp-action="IndexHabitaciones">
-                        WEB PROYECTO GUIA
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                        EASY STAY
                     </a>
 
- 
-
- 
-                    @*<li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="IndexPaquetes">Ver Paquetes </a>
-                    </li>*@
-
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Index" asp-action="IndexHabitaciones">
+                        Ver Habitaciones
+                    </a>
+                     
+                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ReservasxUsu">MIS RESERVAS </a>
+                     
 
 
 

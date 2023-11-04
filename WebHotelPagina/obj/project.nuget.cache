@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "3u7+0rsGSKnbFbunc2Os+cjT+cUAsw7+LFEeOMJG97YfVWBMKmOQrLL3kSOlVvMES9MeqeCi7Uq2LrJYwlxj1A==",
+  "dgSpecHash": "MjCz01iyuQ3JlLzZu1KwlxIu3i/d9TZ+tB9bwcC+IJNLh4s+n9X/eD3NodEZ+EqrQTKeqbM7hV4GQ3O2xO5AVQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Lenovo\\Desktop\\CICLO 6\\PROYECTO_INTEGRADOR\\implement new\\SlnWeb\\WebHotelPagina\\WebHotelPagina.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\bootstrap\\3.3.1\\bootstrap.3.3.1.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\bootstrap-rating.mvc\\1.0.0\\bootstrap-rating.mvc.1.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\braintree\\5.11.0\\braintree.5.11.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
@@ -57,6 +59,7 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core.zh-cn\\2.14.1\\humanizer.core.zh-cn.2.14.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core.zh-hans\\2.14.1\\humanizer.core.zh-hans.2.14.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core.zh-hant\\2.14.1\\humanizer.core.zh-hant.2.14.1.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\jquery\\1.9.0\\jquery.1.9.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
@@ -249,5 +252,16 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"bootstrap-rating.mvc 1.0.0\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" en lugar de la plataforma de destino del proyecto \"net6.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "bootstrap-rating.mvc",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

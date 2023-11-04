@@ -11,6 +11,10 @@ namespace WebHotelPagina.Controllers
         {
             return View();
         }
+        public IActionResult nuevo()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> IndexListadoTipos()
         {
@@ -38,15 +42,17 @@ namespace WebHotelPagina.Controllers
             {
                 using (var multipartForm = new MultipartFormDataContent())
                 {
-                    multipartForm.Add(new StringContent(obj.descripcion.ToString()), name: "nombre");
-                    multipartForm.Add(new StringContent(obj.capacidad.ToString()), name: "capacidad_maxima");
-                    multipartForm.Add(new StringContent(obj.id_hotel.ToString()), name: "id_hotel"); 
+                    multipartForm.Add(new StringContent(obj.descripcion.ToString()), name: "descripcion");
+                    multipartForm.Add(new StringContent(obj.capacidad.ToString()), name: "capacidad");
+                   // multipartForm.Add(new StringContent(obj.id_hotel.ToString()), name: "id_hotel"); 
 
                     
 
                     var response = await cliente.PostAsync("http://testingtestteo-001-site1.ftempurl.com/api/TipoHabitacion", multipartForm);
                     var resultado = await response.Content.ReadAsStringAsync();
                     var result = resultado;
+                    Console.WriteLine(response); // Imprime en la consola
+
 
                     // Realizar acciones adicionales con la respuesta si es necesario
 
@@ -56,9 +62,7 @@ namespace WebHotelPagina.Controllers
         }
         public async Task<ActionResult> NuevoTipo()
 
-        {
-
-            // Para el DropDownList 
+        {  // Para el DropDownList 
             var tipo = new List<TbHoteles>();
             using (HttpClient cliente = new HttpClient())
             {
@@ -71,6 +75,7 @@ namespace WebHotelPagina.Controllers
                 tipo = JsonConvert.DeserializeObject<List<TbHoteles>>(respuestaAPI);
             }
             ViewBag.TIPO = new SelectList(tipo, "id", "nombre");
+            // 
 
             return View(new TbTipoHabitacion());
         }
@@ -94,7 +99,7 @@ namespace WebHotelPagina.Controllers
                 obj = JsonConvert.DeserializeObject<TbTipoHabitacion>(respuestaPI);
             }
 
-             
+
             // Para el DropDownList 
             var tipo = new List<TbHoteles>();
             using (HttpClient cliente = new HttpClient())
@@ -123,13 +128,14 @@ namespace WebHotelPagina.Controllers
             {
                 using (var multipartForm = new MultipartFormDataContent())
                 {
-                    multipartForm.Add(new StringContent(obj.descripcion.ToString()), name: "nombre");
-                    multipartForm.Add(new StringContent(obj.capacidad.ToString()), name: "capacidad_maxima");
-                    multipartForm.Add(new StringContent(obj.id_hotel.ToString()), name: "id_hotel");
+                    multipartForm.Add(new StringContent(obj.descripcion.ToString()), name: "descripcion");
+                    multipartForm.Add(new StringContent(obj.capacidad.ToString()), name: "capacidad");
+                  //  multipartForm.Add(new StringContent(obj.id_hotel.ToString()), name: "id_hotel");
  
 
                     var response = await cliente.PutAsync("http://testingtestteo-001-site1.ftempurl.com/api/TipoHabitacion/ActualizarTipoHabitacion/" + id, multipartForm);
                     var resultado = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(response); // Imprime en la consola
 
                     // Realizar acciones adicionales con la respuesta si es necesario
 
