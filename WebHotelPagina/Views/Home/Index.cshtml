@@ -51,19 +51,19 @@
             <div class="carousel-item active">
                 <img src="https://www.actualidadviajes.com/wp-content/uploads/2017/09/tipos-alojamiento-hoteles.jpg" alt="Imagen 1">
                 <div class="carousel-caption">
-                    <h3>Descripción de la Imagen 1</h3>
+                    <h3>VIAJA A LOS MEJORES DESTINOS</h3>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="https://www.entornoturistico.com/wp-content/uploads/2022/04/Alberca-de-hotel-660x330.jpg" alt="Imagen 2">
                 <div class="carousel-caption">
-                    <h3>Descripción de la Imagen 2</h3>
+                    <h3>TENEMOS LAS MEJORES HABITACIONES CON LAS MEJORES CALIFICACIONES</h3>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="https://www.braintrust-cs.com/wp-content/uploads/2020/12/tourism-4438308_1280-1080x675.jpg" alt="Imagen 3">
                 <div class="carousel-caption">
-                    <h3>Descripción de la Imagen 3</h3>
+                    <h3>ORGANIZA TU PLAN DE VIAJE CON NOSOTROS</h3>
                 </div>
             </div>
             <!-- Agrega más elementos .carousel-item según la cantidad de imágenes -->
@@ -200,36 +200,40 @@
                     var hoteles = $("#hotel-list");
                     hoteles.empty();
 
-                    // Recorrer los resultados y agregar elementos a la lista
-                    for (var i = 0; i < data.length; i++) {
-                        var hotel = data[i];
-                        var listItem = $("<li class='list-group-item'></li>");
-                        listItem.addClass('d-flex');
-                        var contenido = `
-        <div class="d-flex">
-            <img src="${hotel.imagen}" class="img-thumbnail" alt="Hotel Image" style="width: 250px;">
-            <div class="flex-fill pl-3">
-                <h4 class="mb-1"><strong>${hotel.nombre}</strong></h4>
-                <div class="row">
-                    <div class="col-6">
-                        <span class="badge p-2 border w-100 text-dark" style="background-color: lavenderblush">${hotel.ciudad}</span>
+                    // Verificar si hay hoteles disponibles
+                    if (data.length > 0) {
+                        // Recorrer los resultados y agregar elementos a la lista
+                        for (var i = 0; i < data.length; i++) {
+                            var hotel = data[i];
+                            var listItem = $("<li class='list-group-item'></li>");
+                            listItem.addClass('d-flex');
+                            var contenido = `
+            <div class="d-flex">
+                <img src="${hotel.imagen}" class="img-thumbnail" alt="Hotel Image" style="width: 250px;">
+                <div class="flex-fill pl-3">
+                    <h4 class="mb-1"><strong>${hotel.nombre}</strong></h4>
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="badge p-2 border text-dark" style="background-color: lavenderblush; display: inline-block;">${hotel.ciudad}</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="badge p-2 border text-dark" style="background-color: #c1e6c2 ; display: inline-block;">${hotel.telefono}</span>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <span class="badge p-2 border w-100 text-dark" style="background-color: #c1e6c2">${hotel.telefono}</span>
-                    </div>
+                    <p class="mb-1">${hotel.direccion}</p>
                 </div>
-                <p class="mb-1">${hotel.direccion}</p>
-            </div>
-                        &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                     <div class="ml-auto"> <!-- Mover a la derecha -->
-                        <a href="@Url.Action("IndexHotel", "Home")?hotel=${hotel.id}" class="btn btn-primary mb-2">Ver Hotel</a>
-  
-                                        <a href="@Url.Action("IndexHabitaciones", "Index")?hotel=${hotel.id}" class="btn btn-success mb-2">Ver Habitaciones</a>
-
-            </div>
-        </div>`;
-                        listItem.html(contenido);
-                        hoteles.append(listItem);
+                &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <div class="ml-auto"> <!-- Mover a la derecha -->
+                    <a href="@Url.Action("IndexHotel", "Home")?hotel=${hotel.id}" class="btn btn-primary mb-2">Ver Hotel</a>
+                    <a href="@Url.Action("IndexHabitaciones", "Index")?hotel=${hotel.id}" class="btn btn-success mb-2">Ver Habitaciones</a>
+                </div>
+            </div>`;
+                            listItem.html(contenido);
+                            hoteles.append(listItem);
+                        }
+                    } else {
+                        // Agregar mensaje de "No hay hoteles en esta dirección"
+                        hoteles.append("<li class='list-group-item'>No hay hoteles disponibles en este departamento</li>");
                     }
                 },
                 error: function () {

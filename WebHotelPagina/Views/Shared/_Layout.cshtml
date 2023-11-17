@@ -136,10 +136,14 @@
                     <a class="nav-link text-dark" asp-area="" asp-controller="Index" asp-action="IndexHabitaciones">
                         Ver Habitaciones
                     </a>
-                     
-                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ReservasxUsu">MIS RESERVAS </a>
-                     
+                     @if (User.IsInRole(Session.ClienteRol))
+    {
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ReservasxUsu">MIS RESERVAS </a>
+                        
 
+                            
+}
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Nosotros">SOBRE NOSOTROS </a>
 
 
 
@@ -194,7 +198,7 @@
 
     </div>
     <!-- End of Page Wrapper -->
-    @if (User.IsInRole("Usuario"))
+    @if (!User.IsInRole(Session.AdminRol))
     {
     <script>
         window.watsonAssistantChatOptions = {

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WebHotelPagina.Models.DetalleReserva>
+
+@if (Model.Any())
+{
+    <table class="table table-bordered">
+        <thead style="background-color: darkgray; color: wheat">
+            <tr>
+                <th>Fecha de Reserva</th>
+                <th>Fecha de Entrada</th>
+                <th>Fecha de Salida</th>
+                <th>Monto Cancelado</th>
+                <th>Codigo de transaccion</th>
+                <th>Contacto Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.FormattedFechaReserva)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FormattedFechaEntrada)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FormattedFechaSalida)</td>
+                    <td>@Html.DisplayFor(modelItem => item.precio_total)</td>
+                    <td>@Html.DisplayFor(modelItem => item.transaccion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.correo)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay reservas anteriores asociadas a la habitación.</p>
+}

@@ -36,7 +36,7 @@ namespace WebHotelPagina.Controllers
             using (HttpClient cliente = new HttpClient())
             {
 
-                var response = await cliente.GetAsync("http://testingtestteo-001-site1.ftempurl.com/api/Hoteles/ListadoGeneral");
+                var response = await cliente.GetAsync("http://testingtestteo-001-site1.ftempurl.com/api/Hoteles/ListadoGeneralEstado");
 
                 string apiresponse = await response.Content.ReadAsStringAsync();
 
@@ -186,6 +186,55 @@ namespace WebHotelPagina.Controllers
                 }
             }
         }
+
+
+
+
+
+
+
+        public async Task<ActionResult> ActivarTipo(int id)
+
+        {
+            using (var cliente = new HttpClient())
+            {
+
+                var response = await cliente.PutAsync("http://testingtestteo-001-site1.ftempurl.com/api/Hoteles/ActivarHotel/" + id, null);
+                var resultado = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(response); // Imprime en la consola
+
+                // Realizar acciones adicionales con la respuesta si es necesario
+
+                return RedirectToAction("IndexListadoHoteles");
+
+            }
+        }
+
+
+
+        public async Task<ActionResult> DesactivarTipo(int id)
+
+        {
+            using (var cliente = new HttpClient())
+            {
+
+                var response = await cliente.DeleteAsync("http://testingtestteo-001-site1.ftempurl.com/api/Hoteles/EliminarHotel/" + id);
+                var resultado = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(response); // Imprime en la consola
+
+                // Realizar acciones adicionales con la respuesta si es necesario
+
+                return RedirectToAction("IndexListadoHoteles");
+
+            }
+        }
+
+
+
+
+
+
+
 
 
 

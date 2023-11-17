@@ -1,34 +1,39 @@
 ﻿@model IEnumerable<WebHotelPagina.Models.ListadoHoteles>
 
 @{
-    ViewData["Title"] = "IndexListadoHoteles";
+    ViewData["Title"] = "Listado de Hoteles";
 }
 
-<h1>IndexListadoHoteles</h1>
+<h1>
+    Listado de Hoteles</h1>
 
 <p>
-    <a asp-action="NuevoHotel">Create New</a>
+    <a asp-action="NuevoHotel" class="btn btn-primary" style="display: inline-block;">Crear Nuevo Hotel</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+               CODIGO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nombre)
+               NOMBRE DE HOTEL
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ciudad)
+                CIUDAD
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.direccion)
+               DIRECCION
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.telefono)
+               TELEFONO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.imagen)
+                IMAGEN REFERENCIAL
+            </th>
+            <th>
+                ¿ESTA ACTIVO?
             </th>
             <th></th>
         </tr>
@@ -51,14 +56,40 @@
             <td>
                 @Html.DisplayFor(modelItem => item.telefono)
             </td>
-            <td>
+
+                
                 <td>
                     <img src="@item.imagen" alt="Imagen" width="170" height="170" class="rounded mx-auto d-block">
-                </td> 
-            </td>
+                </td>
+
+                <td>
+                    @if (item.estado)
+                    {
+                        <button class="btn btn-success" disabled>SI</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-danger" disabled>NO</button>
+                    }
+                </td>
+
+
+
+
             <td>
-                    @Html.ActionLink("Editar", "EditHotel", new {   id=item.id }) |
-            </td>
+                    @Html.ActionLink("Editar", "EditHotel", new {   id=item.id }, new { @class = "btn btn-primary" })
+                    @if (item.estado)
+                    {
+                        @Html.ActionLink("Desactivar Hotel", "DesactivarTipo", new { id = item.id }, new { @class = "btn btn-info" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Activar Hotel", "ActivarTipo", new { id = item.id }, new { @class = "btn btn-info" })
+
+                    }
+                 
+                
+                </td>
         </tr>
 }
     </tbody>

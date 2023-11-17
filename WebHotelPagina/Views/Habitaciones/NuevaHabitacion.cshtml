@@ -1,23 +1,32 @@
 ﻿@model WebHotelPagina.Models.TbHabitaciones
 
 @{
-    ViewData["Title"] = "NuevaHabitacion";
+    ViewData["Title"] = "Nueva Habitacion";
 }
 
-<h1>NuevaHabitacion</h1>
+ 
 
-<h4>TbHabitaciones</h4>
+@if (Model.cod_habitacion != null)
+{
+    <h1>Actualizar Habitacion</h1>
+}
+else
+{
+    <h1>Nueva Habitacion</h1>
+}
+
+ 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input asp-for="cod_habitacion" type="text" class="form-control" name="cod_habitacion" />
+            <input asp-for="cod_habitacion" type="hidden" class="form-control" name="cod_habitacion" />
 
 
             <div class="form-group">
-                <label asp-for="id_hotel" class="control-label"></label>
+                <label   class="control-label">HOTEL</label>
                 @Html.DropDownList("id_hotel", ViewBag.HOTEL as SelectList,
                 "Seleccione...", new { @class = "form-select"} )
                 <span asp-validation-for="id_hotel" class="text-danger"></span>
@@ -25,7 +34,7 @@
 
 
             <div class="form-group">
-                <label asp-for="id_tipo" class="control-label"></label>
+                <label   class="control-label">TIPO DE HABITACION</label>
                 @Html.DropDownList("id_tipo", ViewBag.TIPO as SelectList,
                 "Seleccione...", new { @class = "form-select"} )
                 <span asp-validation-for="id_tipo" class="text-danger"></span>
@@ -33,24 +42,24 @@
              
              
             <div class="form-group">
-                <label asp-for="precio" class="control-label"></label>
+                <label  class="control-label">PRECIO POR DIA</label>
                 <input asp-for="precio" class="form-control" name="precio" />
                 <span asp-validation-for="precio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="nombre" class="control-label"></label>
+                <label   class="control-label">NOMBRE DE LA HABITACION</label>
                 <input asp-for="nombre" class="form-control" name="nombre" />
                 <span asp-validation-for="nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="descripcion" class="control-label"></label>
+                <label   class="control-label">DESCRIPCION DE LA HABITACION</label>
                 <input asp-for="descripcion" class="form-control" name="descripcion"/>
                 <span asp-validation-for="descripcion" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label>
-                    Imagen:
+                    Imagen REFERENCIAL:
                 </label>
                 <input name="archivo" type="file" />
             </div>
@@ -61,13 +70,13 @@
             @if (Model.cod_habitacion != null)
             {
                 <div class="form-group">
-                    <button type="submit" asp-action="EditHabitaciones" class="btn btn-primary">Actualizar</button>
+                    <button type="submit" asp-action="EditHabitaciones" class="btn btn-warning">Actualizar</button>
                 </div>
             }
             else
             {
                 <div class="form-group">
-                    <button type="submit" asp-action="NuevaHabitacion" class="btn btn-primary">Crear Habitacion</button>
+                    <button type="submit" asp-action="NuevaHabitacion" class="btn btn-warning">Crear Habitacion</button>
                 </div>
             }
 
@@ -77,7 +86,7 @@
 </div>
 
 <div>
-    <a asp-action="IndexListadoHabitaciones">Back to List</a>
+    <a asp-action="IndexListadoHabitaciones" class="btn btn-primary" style="display: inline-block;">REGRESAR AL LISTADO</a>
 </div>
 
 @section Scripts {

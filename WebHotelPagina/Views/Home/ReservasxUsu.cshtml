@@ -26,6 +26,27 @@
 </style>
 
 <h1>Mis RESERVAS</h1>
+
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var opcion in ViewBag.reserva)
+        {
+            <div class="col-md-6">
+                @{
+                    var isSelected = opcion.id == ViewBag.SelectedReserva;
+                    var cssClass = isSelected ? "btn btn-primary btn-floating btn-lg w-100 active" : "btn btn-primary btn-floating btn-lg w-100";
+                }
+                <a href="@Url.Action("ReservasxUsu", new {  estado = opcion.id })" class="@cssClass" value="@opcion.id">@opcion.valor</a>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
 @if (Model == null || !Model.Any() || Model.All(reserva => reserva.id_reserva < 0))
 {
     <p>Su usario no tiene reservas disponibles en este momento.</p>
@@ -35,16 +56,24 @@ else
     <div class="reservas-container">
         @foreach (var item in Model)
         {
-            <div class="reserva">
+            <div class="reserva" style="position: relative; margin-bottom: 20px;">
                 <h3>Reserva # @item.id_reserva</h3>
                 <p><strong>Usuario:</strong> @item.usuario</p>
                 <p><strong>Correo:</strong> @item.correo</p>
                 <p><strong>Habitación:</strong> @item.habitacion</p>
-                <p><strong>Fecha de Reserva:</strong> @item.fecha_reserva</p>
-                <p><strong>Fecha de Entrada:</strong> @item.fecha_entrada</p>
-                <p><strong>Fecha de Salida:</strong> @item.fecha_salida</p>
+                <p><strong>Fecha de Reserva:</strong> @item.FormattedFechaReserva</p>
+                <p><strong>Fecha de Entrada:</strong> @item.FormattedFechaEntrada</p>
+                <p><strong>Fecha de Salida:</strong> @item.FormattedFechaSalida</p>
                 <p><strong>Días de Reserva:</strong> @item.dias_reserva</p>
                 <p><strong>Precio Total:</strong> @item.precio_total</p>
+                @if (item.estado.HasValue && item.estado.Value)
+                {
+                    <span class="badge badge-success">RESERVA VIGENTE</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">RESERVA PASADA</span>
+                }
             </div>
         }
     </div>

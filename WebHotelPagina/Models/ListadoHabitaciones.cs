@@ -15,6 +15,12 @@
         public int capacidad { get; set; }
         public string? nombre { get; set; }
         public int IdTipo { get; set; }
+        public int IdHotel { get; set; } 
+        public DateTime? fechaSalida { get; set; }
+
+        public string? FormattedFechaSalida => fechaSalida?.ToString("dd/MM/yyyy");
+
+
         public IEnumerable<Comentarios> comentarios { get; set; }
         public IEnumerable<Comentarios> calificacion { get; set; }
 

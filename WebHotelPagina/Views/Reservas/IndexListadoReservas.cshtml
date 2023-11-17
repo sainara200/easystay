@@ -1,43 +1,75 @@
 ﻿@model IEnumerable<WebHotelPagina.Models.Reservas>
 
 @{
-    ViewData["Title"] = "IndexListadoReservas";
+    ViewData["Title"] = "Listado de Reservas";
 }
 
-<h1>IndexListadoReservas</h1>
+<h1>Listado de Reservas</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+<div class="form-group">
+    <label class="control-label">USUARIOS </label>
+    <form method="post" action="@Url.Action("IndexListadoReservas")">
+        <select name="usu" id="usu" class="form-select">
+            <option value="">Seleccione...</option>
+            @foreach (var usuario in ViewBag.USU as SelectList)
+            {
+                <option value="@usuario.Value">@usuario.Text</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Seleccionar</button>
+    </form>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var opcion in ViewBag.reserva)
+        {
+            <div class="col-md-6">
+                @{
+                    var isSelected = opcion.id == ViewBag.SelectedReserva;
+                    var cssClass = isSelected ? "btn btn-primary btn-floating btn-lg w-100 active" : "btn btn-primary btn-floating btn-lg w-100";
+                }
+                <a href="@Url.Action("IndexListadoReservas", new {usu=ViewBag.SelectedUsu, estado = opcion.id })" class="@cssClass" value="@opcion.id">@opcion.valor</a>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model.Any(item => item.id_reserva > 0))
+    {
+
+ 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id_reserva)
+                CODIGO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.usuario)
+                FECHA DE RESERVA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.correo)
+                USERNAME
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.habitacion)
+               CORREO DE CONTACTO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fecha_reserva)
+               NOMBRE DE LA HABITACION
+            </th>
+            
+            <th>
+                FECHA DE ENTRADA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fecha_entrada)
+                FECHA DE SALIDA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fecha_salida)
+                DIAS
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.dias_reserva)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.precio_total)
+                MONTO CANCELADO
             </th>
             <th></th>
         </tr>
@@ -47,7 +79,10 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.id_reserva)
-            </td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FormattedFechaReserva)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.usuario)
             </td>
@@ -57,24 +92,35 @@
             <td>
                 @Html.DisplayFor(modelItem => item.habitacion)
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.fecha_reserva)
+                @Html.DisplayFor(modelItem => item.FormattedFechaEntrada)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.fecha_entrada)
+                @Html.DisplayFor(modelItem => item.FormattedFechaSalida)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.fecha_salida)
+                @Html.DisplayFor(modelItem => item.dias_reserva) dia(s)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.dias_reserva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.precio_total)
+               s/. @Html.DisplayFor(modelItem => item.precio_total)
             </td>
             
 
         </tr>
 }
     </tbody>
-</table>
+    </table>
+   
+        
+    }
+
+else
+{
+    <h4>NO HAY RESERVAS DISPONIBLES </h4>
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+ 

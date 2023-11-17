@@ -56,7 +56,20 @@ else
                     else
                     {
                         <button id="registerSubmit" style="padding-left: 2.5rem; padding-right: 2.5rem;" type="submit" class="w-100 btn btn-lg btn-primary">Registrarme</button>
+                    
+                        <p>
+                            <a id="forgot-password" asp-page="./ForgotPassword">Olvidaste tu contraseña?</a>
+                        </p>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">
+                            <a asp-page="./Login" class="link-danger" asp-route-returnUrl="@Model.ReturnUrl">Ya tengo una cuenta</a>
+                        </p>
+                    
+                    
                     }
+
+                    
+
+
 
                     </br>
                     </br>

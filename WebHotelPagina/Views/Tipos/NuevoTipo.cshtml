@@ -2,31 +2,41 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 @{
-    ViewData["Title"] = "NuevoTipo";
+    ViewData["Title"] = "Nuevo Tipo de Habitacion";
+}
+ 
+
+
+@if (Model.id != 0)
+{
+    <h1>Actualizar Tipo de Habitacion</h1>
+}
+else
+{
+    <h1>Nuevo Tipo de Habitacion</h1>
 }
 
-<h1>NuevoTipo</h1>
 
-<h4>TbTipoHabitacion</h4>
+ 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div> 
 
-            <input asp-for="id" type="text" class="form-control" name="id" />
+            <input asp-for="id" type="hidden" class="form-control" name="id" />
 
 
 
             <div class="form-group">
-                <label asp-for="descripcion" class="control-label"></label>
+                <label   class="control-label">DESCRIPCION DE TIPO DE HABITACION</label>
                 <input asp-for="descripcion" class="form-control" />
                 <span asp-validation-for="descripcion" class="text-danger"></span>
             </div>
             
 
             <div class="form-group">
-                <label asp-for="capacidad" class="control-label"></label>
+                <label   class="control-label">CAPACIDAD DE PERSONAS</label>
                 <input asp-for="capacidad" class="form-control" />
                 <span asp-validation-for="capacidad" class="text-danger"></span>
             </div>
@@ -41,13 +51,13 @@
             @if (Model.id != 0)
             {
                 <div class="form-group">
-                    <button type="submit" asp-action="EditTipos" class="btn btn-primary">Actualizar</button>
+                    <button type="submit" asp-action="EditTipos" class="btn btn-warning">Actualizar</button>
                 </div>
             }
             else
             {
                 <div class="form-group">
-                    <button type="submit" asp-action="NuevoTipo" class="btn btn-primary">Crear Tipo de Habitacion</button>
+                    <button type="submit" asp-action="NuevoTipo" class="btn btn-warning">Crear Tipo de Habitacion</button>
                 </div>
             }
 
@@ -58,8 +68,17 @@
 </div>
 
 <div>
-    <a asp-action="IndexListadoTipos">Back to List</a>
+    <a asp-action="IndexListadoTipos" class="btn btn-primary" style="display: inline-block;">REGRESAR AL LISTADO</a>
 </div>
+
+
+
+
+
+
+
+
+
 
 
 

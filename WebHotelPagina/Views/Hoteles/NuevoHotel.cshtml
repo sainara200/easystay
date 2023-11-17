@@ -1,69 +1,77 @@
 ﻿@model WebHotelPagina.Models.Hotel2
 
 @{
-    ViewData["Title"] = "NuevoHotel";
+    ViewData["Title"] = "Nuevo Hotel";
+}
+ 
+
+@if (Model.id != 0)
+{
+    <h1>Actualizar Hotel</h1>
+}
+else
+{
+    <h1>Nuevo Hotel</h1>
 }
 
-<h1>NuevoHotel</h1>
-
-<h4>Hotel2</h4>
+ 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div> 
 
-            <input asp-for="id" type="text" class="form-control" name="id" />
+            <input asp-for="id" type="hidden" class="form-control" name="id" />
 
             <div class="form-group">
-                <label asp-for="nombre" class="control-label"></label>
+                <label   class="control-label">NOMBRE DEL HOTEL</label>
                 <input asp-for="nombre" class="form-control" name="nombre" />
                 <span asp-validation-for="nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="direccion" class="control-label"></label>
+                <label  class="control-label">DIRECCION DEL HOTEL</label>
                 <input asp-for="direccion" class="form-control"  name="direccion"/>
                 <span asp-validation-for="direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="telefono" class="control-label"></label>
+                <label   class="control-label"> TELEFONO</label>
                 <input asp-for="telefono" class="form-control" name="telefono"/>
                 <span asp-validation-for="telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Servicios" class="control-label"></label>
+                <label  class="control-label"> SERVICIOS QUE OFRECE EL HOTEL</label>
                 <input asp-for="Servicios" class="form-control" name="Servicios" />
                 <span asp-validation-for="Servicios" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="web" class="control-label"></label>
+                <label  class="control-label"> SITIO WEB </label>
                 <input asp-for="web" class="form-control"  name="web"/>
                 <span asp-validation-for="web" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="correo" class="control-label"></label>
+                <label class="control-label"> CORREO DE CONTACTO</label>
                 <input asp-for="correo" class="form-control" name="correo" />
                 <span asp-validation-for="correo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="descripcion" class="control-label"></label>
+                <label class="control-label">DESCRIPCION DEL HOTEL</label> 
                 <input asp-for="descripcion" class="form-control" name="descripcion"/>
                 <span asp-validation-for="descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="tarifamin" class="control-label"></label>
-                <input asp-for="tarifamin" class="form-control" name="tarifamin"/>
+                <label class="control-label">TARIFA MINIMA DE HABITACION</label>
+                <input asp-for="tarifamin" class="form-control" name="tarifamin"/> 
                 <span asp-validation-for="tarifamin" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="tarifamax" class="control-label"></label>
+                <label class="control-label">TARIFA MAXIMA DE HABITACION</label>
                 <input asp-for="tarifamax" class="form-control" name="tarifamax"/>
                 <span asp-validation-for="tarifamax" class="text-danger"></span>
             </div>
              
 
             <div class="form-group">
-                <label asp-for="id_ciudad" class="control-label"></label>
+                <label class="control-label">DEPARTAMENTO </label>
                 @Html.DropDownList("id_ciudad", ViewBag.DEP as SelectList,
                 "Seleccione...", new { @class = "form-select"} )
                 <span asp-validation-for="id_ciudad" class="text-danger"></span>
@@ -79,13 +87,13 @@
             @if (Model.id != 0)
             {
                 <div class="form-group">
-                    <button type="submit" asp-action="EditHotel" class="btn btn-primary">Actualizar</button>
+                    <button type="submit" asp-action="EditHotel" class="btn btn-warning">Actualizar</button>
                 </div>
             }
             else
             {
                 <div class="form-group">
-                    <button type="submit" asp-action="NuevoHotel" class="btn btn-primary">Crear Hotel</button>
+                    <button type="submit" asp-action="NuevoHotel" class="btn btn-warning">Crear Hotel</button>
                 </div>
             }
 
@@ -95,7 +103,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="IndexListadoHoteles" class="btn btn-primary" style="display: inline-block;">REGRESAR AL LISTADO</a>"
 </div>
 
 @section Scripts {

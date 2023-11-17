@@ -232,8 +232,14 @@ public async Task<IActionResult> GetHabitacionesxTipo(int? id)
 
 
 
-        public async Task<IActionResult> IndexHabitaciones(int? id, int? hotel)
+        public async Task<IActionResult> IndexHabitaciones(int? id, int? hotel, int? reserva)
         {
+
+            if(reserva is null)
+            {
+                reserva = 1;
+            }    
+
             var listado = new List<ListadoHabitaciones>();
 
             using (HttpClient cliente = new HttpClient())
@@ -241,7 +247,7 @@ public async Task<IActionResult> GetHabitacionesxTipo(int? id)
                  
                 var url = "http://testingtestteo-001-site1.ftempurl.com/api/Habitaciones/listadoxTipo";
 
-                if (id.HasValue || hotel.HasValue)
+                if (id.HasValue || hotel.HasValue || reserva.HasValue)
                 {
                     url += "?";
 
@@ -258,6 +264,16 @@ public async Task<IActionResult> GetHabitacionesxTipo(int? id)
                         }
                         url += "hotel=" + hotel;
                     }
+
+                    if (reserva.HasValue)
+                    {
+                        if (id.HasValue || hotel.HasValue)
+                        {
+                            url += "&";
+                        }
+                        url += "reserva=" + reserva;
+                    }
+
                 }
                 var response = await cliente.GetAsync( url);
                 string apiresponse = await response.Content.ReadAsStringAsync();
@@ -297,9 +313,109 @@ public async Task<IActionResult> GetHabitacionesxTipo(int? id)
             ViewBag.SelectedHotel = hotel;
 
 
+            ViewBag.reserva = new[]
+        {
+        new { id = 1, valor = "HABITACIONES DISPONIBLES" },
+        new { id = 0, valor = "HABITACIONES RESERVADAS" }
+    };
+
+
+            ViewBag.SelectedReserva = reserva;
+
 
             return View(listado);
         }
+
+
+
+
+
+
+
+        public async Task<IActionResult> IndexHabitacionesReservadas(int? id, int? hotel)
+        {
+            var listado = new List<ListadoHabitaciones>();
+
+            using (HttpClient cliente = new HttpClient())
+            {
+
+                var url = "http://testingtestteo-001-site1.ftempurl.com/api/Habitaciones/listadoxTipo";
+
+                if (id.HasValue || hotel.HasValue)
+                {
+                    url += "?";
+
+                    if (id.HasValue)
+                    {
+                        url += "id=" + id;
+                    }
+
+                    if (hotel.HasValue)
+                    {
+                        if (id.HasValue)
+                        {
+                            url += "&";
+                        }
+                        url += "hotel=" + hotel;
+                    }
+                }
+                var response = await cliente.GetAsync(url);
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                listado = JsonConvert.DeserializeObject<List<ListadoHabitaciones>>(apiresponse);
+            }
+
+
+            ///  http://testingtestteo-001-site1.ftempurl.com/api/Hoteles/ListadoGeneral
+
+
+            var tipo = new List<TbTipoHabitacion>();
+
+            using (HttpClient cliente = new HttpClient())
+            {
+                var respuesta = await cliente.GetAsync("http://testingtestteo-001-site1.ftempurl.com/api/TipoHabitacion");
+                string respuestaAPI = await respuesta.Content.ReadAsStringAsync();
+                tipo = JsonConvert.DeserializeObject<List<TbTipoHabitacion>>(respuestaAPI);
+            }
+
+            ViewBag.TIPO = new SelectList(tipo, "id", "descripcion");
+            ViewBag.SelectedCategory = id;
+
+
+
+            var hoteles = new List<TbHoteles>();
+            using (HttpClient cliente = new HttpClient())
+            {
+                // realizar la solicitud GET 
+                var respuesta =
+                  await cliente.GetAsync("http://testingtestteo-001-site1.ftempurl.com/api/Hoteles/ListadoGeneral");
+                // convertir el contenido a una cadena 
+                string respuestaAPI = await respuesta.Content.ReadAsStringAsync();
+                // deserializar la cadena (Json) a Lista Genérica de Medicos 
+                hoteles = JsonConvert.DeserializeObject<List<TbHoteles>>(respuestaAPI);
+            }
+            ViewBag.HOTEL = new SelectList(hoteles, "id", "nombre");
+            ViewBag.SelectedHotel = hotel;
+
+
+
+            return View(listado);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //public async Task<IActionResult> DetailsHabitacion(string id)
         //{
@@ -355,7 +471,11 @@ public async Task<IActionResult> GetHabitacionesxTipo(int? id)
                                     capacidad = reader.GetInt32(5),
                                     precio = reader.GetDecimal(6),
                                     descripcion = reader.GetString(7),
-                                    imagen = reader.GetString(8)
+                                    imagen = reader.GetString(8),
+                                    IdHotel = reader.GetInt32(9),
+                                    hotel=reader.GetString(10),
+                                    estado = reader.GetBoolean(11)
+
                                 };
                             }
                         }
@@ -394,6 +514,14 @@ public async Task<IActionResult> GetHabitacionesxTipo(int? id)
         public async Task<IActionResult> RegistroReserva(IFormCollection collection, [FromForm] Reservas obj)
         { 
             obj.usuario = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+            if (obj.usuario == null)
+            {
+                obj.usuario = "f7f7c3a0-8bb3-45ca-94d3-087d9eadfd31";
+            }
+
+
 
 
             var connectionString = _configuration.GetConnectionString("cn1");

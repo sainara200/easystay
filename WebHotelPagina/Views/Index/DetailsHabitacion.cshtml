@@ -76,10 +76,20 @@
                         Tipo de Habitación
                     </dt>
                     <dd class="col-sm-8">
-                        <span class="badge p-2 border text-dark" style="background-color: lavenderblush; width: 100px; height: 40px;">
+                        <span class="badge p-2 border text-dark" style="background-color: lavenderblush; display: inline-block;">
                             @Html.DisplayFor(model => model.tipo)
                         </span>
                     </dd>
+
+                    <dt class="col-sm-4">
+                        Nombre del Hotel:
+                    </dt>
+                    <dd class="col-sm-8">
+                        <span class="badge p-2 border text-dark" style="background-color: lavenderblush; display: inline-block;">
+                            @Html.DisplayFor(model => model.hotel)
+                        </span>
+                    </dd>
+                     
 
                     <dt class="col-sm-4">
                         @Html.DisplayNameFor(model => model.descripcion)
@@ -95,23 +105,37 @@
                         @Html.DisplayFor(model => model.capacidad)
                     </dd>
                     <dd class="col-sm-12" style="max-width: 100%; overflow: hidden;">
-                        <img src="@Model.imagen" alt="Imagen" style="max-width: 100%; max-height: 100%;" />
-
+                        <img src="@Model.imagen" alt="Imagen" style="width: 100%; height: 500px;" />
+                        @if (Model.estado)
+                        {
+                            <span class="badge badge-success" style="position: absolute; top: 10px; left: 10px; font-size: 18px; padding: 10px;">DISPONIBLE</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger" style="position: absolute; top: 10px; left: 10px; font-size: 18px; padding: 10px;">RESERVADA</span>
+                        }
                     </dd>
+                     
+
+
+
                      
                 </dl>
                 <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-sm-6"> 
+                        <div class="col-sm-6">   
                             <a asp-action="IndexHabitaciones" class="btn btn-primary btn-block"  >REGRESAR</a>
                         </div>
-                        <div class="col-sm-6"> 
+                        <div class="col-sm-6">
 
-                            @if (User.IsInRole(Session.ClienteRol))
+                            @if (!User.IsInRole(Session.AdminRol))
                             {
+                                @if (Model.estado)
+                                {
+
                              <button id="openModalButton" type="button" class="btn btn-secondary btn-block" data-habitacion-id="@Model.cod_habitacion">REGISTRAR UNA RESERVA</button>
 
-                                
+                                }
                             }
                         </div>
                     </div>
@@ -120,6 +144,11 @@
                         <div class="card-footer bg-dark" id="reservaModal" style="display: none;">
                             <!-- Contenido del modal -->
                             <form asp-action="RegistroReserva" id="payment-form" method="post">
+
+
+                            <h4 style="color: white;">
+                                CONSIDERA QUE SOLO SE PUEDEN HACER RESERVAS DE MÁXIMO 4 SEMANAS
+                            </h4>
                                 <div class="form-group"> 
                                     <input type="hidden" name="habitacion" class="form-control" value="@Model.cod_habitacion">
                                 </div>
@@ -131,15 +160,17 @@
                                     <input type="text" name="correo" class="form-control" />
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="fecha_entrada" style="color: white;" class="control-label">Fecha de Entrada</label>
-                                    <input type="date" id="fecha_entrada" name="fecha_entrada" class="form-control" />
-                                </div>
+                            <div class="form-group">
+                                <label for="fecha_entrada" style="color: white;" class="control-label">Fecha de Entrada</label>
+                                <input type="date" id="fecha_entrada" name="fecha_entrada" class="form-control" />
+                            </div>
 
-                                <div class="form-group">
-                                    <label for="fecha_salida" style="color: white;" class="control-label">Fecha de Salida</label>
-                                    <input type="date" id="fecha_salida" name="fecha_salida" class="form-control" />
-                                </div>
+                            <div class="form-group">
+                                <label for="fecha_salida" style="color: white;" class="control-label">Fecha de Salida</label>
+                                <input type="date" id="fecha_salida" name="fecha_salida" class="form-control" />
+                            </div>
+
+                            
 
                                 <div class="form-group">
                                     <label for="dias_reserva" style="color: white;" class="control-label">Días de Reserva</label>
@@ -167,21 +198,20 @@
                         </div>
                     
 
-                    
-
-
-
-
-
-
-
+                     
                 </div>
                 
 
             </div>
 
+           
+
             <div class="col-md-4">
-                <h3>Calificaciones de la habitación:</h3>
+
+                @if (Model.comentarios.Any())
+                {
+
+                    <h3>Calificaciones de la habitación:</h3>
                 <ul class="list-group">
                     @foreach (var calificacion in Model.calificacion)
                     {
@@ -223,8 +253,21 @@
                         </ul>
                     </div>
                 </div>
+
+
+                }
+                else
+                {
+                    <H5>No hay comentarios disponibles...!!</H5>
+                }
+
+
+
+
+                @if (User.IsInRole(Session.ClienteRol))
+                {
                 <div  >
-                    <h3>Agregar un Comentario</h3>
+                    
                     <form id="comentario-form" method="post">
                         <div class="form-group"> 
                             <input type="hidden" name="habitacion" class="form-control" value="@Model.cod_habitacion">
@@ -262,18 +305,23 @@
                         <!-- Otros campos del formulario (fecha_entrada, fecha_salida, correo, etc.) -->
                         <button type="submit" class="btn btn-primary">Agregar Comentario</button>
                     </form>
+                    </div>
+                    
+                        
+                    }
+
+
+
+
+
+
+
+
                 </div>
+            
 
 
 
-
-
-
-
-
-
-
-            </div>
         </div>
 
 
@@ -290,7 +338,25 @@
 
 
    
+    <script>
+        $(document).ready(function () {
+            $('#fecha_entrada, #fecha_salida').change(function () {
+                var fechaEntrada = new Date($('#fecha_entrada').val());
+                var fechaSalida = new Date($('#fecha_salida').val());
+                var fechaActual = new Date();
 
+                if (fechaEntrada <= fechaActual) {
+                    alert('La fecha de entrada debe ser mayor a la fecha actual.');
+                    $('#fecha_entrada').val('');
+                }
+
+                if (fechaSalida <= fechaEntrada) {
+                    alert('La fecha de salida debe ser mayor a la fecha de entrada.');
+                    $('#fecha_salida').val('');
+                }
+            });
+        });
+    </script>
 
 
     <script>
@@ -365,7 +431,32 @@
      
 
 
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("payment-form");
 
+        form.addEventListener("submit", function (event) {
+            var fechaEntrada = new Date(document.getElementById("fecha_entrada").value);
+            var fechaSalida = new Date(document.getElementById("fecha_salida").value);
+            var diasReserva = document.getElementById("dias_reserva").value;
+
+            // Calcula la diferencia en días
+            var diferenciaDias = (fechaSalida - fechaEntrada) / (1000 * 60 * 60 * 24);
+
+            // Verifica si la cantidad de días es mayor a 28
+            if (diferenciaDias > 28) {
+                // Detiene el envío del formulario
+
+
+                event.preventDefault();
+                // Muestra una alerta
+                alert("No se puede hacer una reserva de más de 28 días.");
+            }
+        });
+
+        // Agrega aquí cualquier otra lógica que necesites
+    });
+</script>
 
     
 

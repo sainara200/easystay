@@ -119,7 +119,7 @@ namespace WebHotelPagina.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = " Tu contraseña ha sido cambiada.";
 
             return RedirectToPage();
         }

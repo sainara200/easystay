@@ -4,12 +4,27 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http; 
 using System.Text;
-using System.Net.Http.Headers; 
+using System.Net.Http.Headers;
+using System.Data.SqlClient;
 
 namespace WebHotelPagina.Controllers
 {
     public class HabitacionesController : Controller
     {
+
+        private readonly IConfiguration configuration;
+        private string cad_cn; 
+
+
+        public HabitacionesController(IConfiguration _config)
+        { 
+            configuration = _config;
+            cad_cn = configuration.GetConnectionString("cn1");
+        }
+
+
+
+
         public IActionResult Index()
         {
             return View();
@@ -186,9 +201,96 @@ namespace WebHotelPagina.Controllers
         }
 
 
+        public List<DetalleReserva> DetalleReserva(string id)
+        {
+            List<DetalleReserva> lista = new List<DetalleReserva>();
+            SqlDataReader dr = SqlHelper.ExecuteReader(
+               cad_cn, "USP_RESERVAXHABITACION", id);
+            //
+            DetalleReserva obj = null;
+            //
+            while (dr.Read())
+            {
+                obj = new DetalleReserva()
+                {
+                    fecha_reserva= dr.GetDateTime(0),
+                    fecha_entrada = dr.GetDateTime(1),
+                    fecha_salida = dr.GetDateTime(2),
+                    precio_total = dr.GetDecimal(3),
+                    username= dr.GetString(4),
+                    correo= dr.GetString(5),
+                    transaccion= dr.GetString(6) 
+
+                };
+                //
+                lista.Add(obj);
+            }
+            dr.Close(); // al cerrar se eliminan todos los objetos utilizados 
+            //
+            return lista;
+        }
 
 
 
+        public PartialViewResult ObtenerDetalle(string id)
+        {
+            var detallesReserva = DetalleReserva(id);
+            return PartialView("_DetalleReserva", detallesReserva);
+        }
+
+
+        public List<DetalleReserva> DetalleReservas(string id)
+        {
+            List<DetalleReserva> lista = new List<DetalleReserva>();
+            SqlDataReader dr = SqlHelper.ExecuteReader(
+               cad_cn, "USP_RESERVASXHABITACION", id);
+            //
+            DetalleReserva obj = null;
+            //
+            while (dr.Read())
+            {
+                obj = new DetalleReserva()
+                {
+                    fecha_reserva = dr.GetDateTime(0),
+                    fecha_entrada = dr.GetDateTime(1),
+                    fecha_salida = dr.GetDateTime(2),
+                    precio_total = dr.GetDecimal(3),
+                    username = dr.GetString(4),
+                    correo = dr.GetString(5),
+                    transaccion = dr.GetString(6)
+
+                };
+                //
+                lista.Add(obj);
+            }
+            dr.Close(); // al cerrar se eliminan todos los objetos utilizados 
+            //
+            return lista;
+        }
+
+        public PartialViewResult ObtenerDetalleReservas(string id)
+        {
+            var detallesReserva = DetalleReservas(id);
+            return PartialView("_DetalleReserva", detallesReserva);
+        }
+
+
+        public async Task<ActionResult> ActivarHabitacion(string id)
+
+        {
+            using (var cliente = new HttpClient())
+            {
+
+                var response = await cliente.PutAsync("http://testingtestteo-001-site1.ftempurl.com/api/Habitaciones/ActivarHabitacion/" + id, null);
+                var resultado = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(response); // Imprime en la consola
+
+                // Realizar acciones adicionales con la respuesta si es necesario
+
+                return RedirectToAction("IndexListadoHabitaciones");
+
+            }
+        }
 
 
 

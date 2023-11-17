@@ -1,25 +1,28 @@
 ﻿@model IEnumerable<WebHotelPagina.Models.TipoHabitacion>
 
 @{
-    ViewData["Title"] = "IndexListadoTipos";
+    ViewData["Title"] = "Listado de Tipos de Habitacion";
 }
 
-<h1>IndexListadoTipos</h1>
-
+<h1>Listado de Tipos de Habitacion</h1>
 <p>
-    <a asp-action="NuevoTipo">Create New</a>
+    <a asp-action="NuevoTipo" class="btn btn-primary" style="display: inline-block;">Crear Nuevo Tipo de Habitacion</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                CODIGO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.descripcion)
+               DESCRIPCION
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.capacidad)
+                CAPACIDAD PERSONAS
+            </th>
+            <th>
+                ¿ESTA ACTIVO?
             </th>
            
             <th></th>
@@ -35,12 +38,35 @@
                 @Html.DisplayFor(modelItem => item.descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.capacidad)
+                    @Html.DisplayFor(modelItem => item.capacidad) persona(s)
             </td>
+                <td>
+                    @if (item.estado)
+                    {
+                        <button class="btn btn-success" disabled>SI</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-danger" disabled>NO</button>
+                    }
+                </td>
             
             <td>
-                    @Html.ActionLink("Editar", "EditTipos", new {   id=item.id   }) 
-            </td>
+                    @Html.ActionLink("Editar", "EditTipos", new { id = item.id }, new { @class = "btn btn-primary" })
+                    
+                    @if (item.estado)
+                    {
+                        @Html.ActionLink("Desactivar Tipo", "DesactivarTipo", new { id = item.id }, new { @class = "btn btn-info" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Activar Tipo", "ActivarTipo", new { id = item.id }, new { @class = "btn btn-info" })
+
+                    }
+                
+                </td>
+
+
         </tr>
 }
     </tbody>

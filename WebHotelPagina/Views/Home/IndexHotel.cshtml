@@ -4,7 +4,7 @@
     ViewData["Title"] = "IndexHotel";
 }
 
-<h1>IndexHotel</h1>
+ 
 
 <div>
 
@@ -26,7 +26,7 @@
                 </div>
                 <dl class="row">
                     <dt class="col-sm-4">
-                        Tipo de Habitación
+                        SERVICIOS OFRECIDOS
                     </dt>
                     <dd class="col-sm-8">
                         <span class="badge p-2 border text-dark" style="background-color: lavenderblush; display: inline-block;">
@@ -35,39 +35,39 @@
                     </dd>
 
                     <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.descripcion)
+                        DESCRIPCION DEL HOTEL
                     </dt>
                     <dd class="col-sm-8">
                         @Html.Raw(Model.descripcion)
                     </dd>
                     <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.correo)
+                        CORREO DEL HOTEL
                     </dt>
                     <dd class="col-sm-8">
                         @Html.Raw(Model.correo)
                     </dd>
 
                     <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.direccion)
+                        DIRECCION DEL HOTEL
                     </dt>
                     <dd class="col-sm-8">
                         @Html.Raw(Model.direccion)
                     </dd>
                     <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.web)
+                        PAGINA WEB DEL HOTEL
                     </dt>
                     <dd class="col-sm-8">
                         @Html.Raw(Model.web)
                     </dd>
 
                     <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.telefono)
+                        TELEFONO DE CONTACTO
                     </dt>
                     <dd class="col-sm-8">
                         @Html.Raw(Model.telefono)
                     </dd>
                     <dt class="col-sm-4">
-                       TARIFA
+                       TARIFA DEL HOTEL
                     </dt>
                     <dd class="col-sm-8">
                         @Html.Raw("MIN s/." + Model.tarifamin + "- MAX s/." + Model.tarifamax)

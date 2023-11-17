@@ -36,6 +36,13 @@ namespace WebHotelPagina.Controllers
         _logger = logger;
         }
 
+        public async Task<IActionResult> Nosotros()
+        {
+            
+            return View();
+        }
+
+
         public async Task<IActionResult> Index ()
         {
             var listado = new List<ListadoHoteles>();
@@ -169,21 +176,41 @@ namespace WebHotelPagina.Controllers
 
         /// http://testingtestteo-001-site1.ftempurl.com/api/Reserva/ListadoxUsuario/
 
-        public async Task<IActionResult> ReservasxUsu()
+        public async Task<IActionResult> ReservasxUsu(int? estado)
         {
+            if (estado is null)
+            {
+                estado = 1;
+            }
+
+
             var listado = new List<Reservas>();
-            string usu=   User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string usu = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             using (HttpClient cliente = new HttpClient())
             {
+                var url = "http://testingtestteo-001-site1.ftempurl.com/api/Reserva/ListadoxUsuario/" + usu;
 
-                var response = await cliente.GetAsync("http://testingtestteo-001-site1.ftempurl.com/api/Reserva/ListadoxUsuario/"+usu);
+                if (estado.HasValue)
+                {
+                    url += "?estado=" + estado;
+                }
 
+                var response = await cliente.GetAsync(url);
                 string apiresponse = await response.Content.ReadAsStringAsync();
-
                 listado = JsonConvert.DeserializeObject<List<Reservas>>(apiresponse);
-
             }
+
+            ViewBag.reserva = new[]
+            {
+        new { id = 1, valor = "RESERVAS VIGENTES" },
+        new { id = 0, valor = "RESERVAS PASADAS" }
+    };
+
+            ViewBag.SelectedReserva = estado;
+
+
+
             return View(listado);
         }
 

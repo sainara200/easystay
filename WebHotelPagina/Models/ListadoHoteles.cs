@@ -8,6 +8,7 @@
         public string? direccion { get; set; }
 
         public string? telefono { get; set; }
+        public bool estado { get; set; }
 
         public string? imagen { get; set; } 
     }
